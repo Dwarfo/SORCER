@@ -1,6 +1,7 @@
 package edu.pjatk.inn.coffeemaker.impl;
 
 import edu.pjatk.inn.coffeemaker.CoffeeMaking;
+import edu.pjatk.inn.coffeemaker.impl.Order;
 import edu.pjatk.inn.coffeemaker.CoffeeService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,7 +28,12 @@ public class CoffeeMaker implements CoffeeMaking, CoffeeService {
 	private boolean [] recipeFull;
 	/** Inventory of the coffee maker */
     private Inventory inventory;
-	
+
+	/** Quantity of sugar in the machine */
+    private float sugar;
+	/** Ordered recipes */
+	private ArrayList<Order> orders = new ArrayList<Order>();
+
     /**
      * Constructor for the coffee maker
      *
@@ -265,4 +271,40 @@ public class CoffeeMaker implements CoffeeMaking, CoffeeService {
 
 		return context;
 	}
+
+
+
+	public boolean checkSugar(float quantity) {
+		if (this.sugar - quantity < 0) {
+			return false;
+		}
+
+		this.sugar -= quantity;
+		return true;
+	}
+
+	public boolean addOrder(Order order)
+	{
+		if(order == null)
+			return false;
+
+		return orders.add(order);
+	}
+
+	public boolean removeOrder(Order order)
+	{
+		if(order == null)
+			return false;
+
+		return orders.remove(order);
+	}
+
+	public Order getOrder(int id)
+	{
+		return  orders.get(id);
+	}
+
+
+
+
 }
