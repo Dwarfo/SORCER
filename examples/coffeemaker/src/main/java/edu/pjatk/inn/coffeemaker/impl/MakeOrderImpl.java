@@ -12,9 +12,14 @@ import java.rmi.RemoteException;
 public class MakeOrderImpl implements MakeOrder {
 
     private final CoffeeMaker coffeeMaker = new CoffeeMaker();
+
+    public CoffeeMaker getCoffeeMaker()
+    {
+        return coffeeMaker;
+    }
+
     @Override
     public Context addOrder(Context context) throws RemoteException, ContextException {
-
 
         try {
             int id = (int) context.getValue("order/id");
@@ -29,8 +34,8 @@ public class MakeOrderImpl implements MakeOrder {
             }
 
             Order order = new Order();
-            Order.setRecipe(recipe);
-            Order.setId(id);
+            order.setRecipe(recipe);
+            order.setId(id);
 
             boolean result = coffeeMaker.addOrder(order);
 
@@ -80,7 +85,7 @@ public class MakeOrderImpl implements MakeOrder {
             int id = (int) context.getValue("order/id");
 
             Order order = coffeeMaker.getOrder(id);
-            if (drinker == null) {
+            if (order == null) {
                 throw new Exception();
             }
 
